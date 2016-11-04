@@ -17,51 +17,70 @@
 		<script src="https://rawgithub.com/tentone/syncinput/master/build/syncinput.min.js"></script>
 
 		<script>
-
-		var scene, camera, plane;
-
+		var scene, camera, plane, mesh;
 		var group;
     var renderer;
     var windowHalfX = window.innerWidth / 2;
 		var windowHalfY = window.innerHeight / 2;
-
 		var mouse = new Mouse();
 		var keyboard = new Keyboard();
-
+		var rotation = new THREE.Vector2();
     init();
-
     function init()
 		{
       //camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
       //posição da esfera no plano
       camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );
       camera.position.z = 500;
-
       scene = new THREE.Scene();
-
       group = new THREE.Group();
       scene.add(group);
-
 			// earth
 			var loader = new THREE.TextureLoader();
-			loader.load( 'world.jpg', function ( texture )
+			loader.load( 'images/earth-index-shifted-gray.png', function ( texture )
 			{
 					var geometry = new THREE.SphereGeometry( 200, 20, 20 );
 					var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
-					var mesh = new THREE.Mesh( geometry, material );
+					mesh = new THREE.Mesh( geometry, material );
 					group.add( mesh );
 			} );
-
   		renderer = new THREE.WebGLRenderer();
   		renderer.setSize(window.innerWidth, window.innerHeight);
   		document.body.appendChild(renderer.domElement);
-
 			//
 			window.addEventListener( 'resize', onWindowResize, false );
-
-
-
     }
+
+		//mouse event variables
+		var projector = new THREE.Projector(),
+				mouse_vector = new THREE.Vector3(),
+				mouse2 = { x: 0, y: 0, z: 1 },
+				ray = new THREE.Raycaster(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0)),
+				intersects = [];
+
+		function onMouseDown(e) {
+				//Evita que o evento chame outra fun��o
+				e.preventDefault();
+				//Come�a a tranforma��o entre coordenadas do rato e three.js
+				mouse2.x = (e.clientX / window.innerWidth) * 2 - 1;
+				mouse2.y = -(e.clientY / window.innerHeight) * 2 + 1;
+				//Vector 3D que indica a dire��o do vetor a partir do pixel
+				mouse_vector.set(mouse2.x, mouse2.y, mouse2.z);
+				//Define um ponto no espa�o 3D de acordo com o clique do rato
+				projector.unprojectVector(mouse_vector, camera);
+				var direction = mouse_vector.sub(camera.position).normalize();
+				//Chama o raycaster com a posi��o da c�mara e a dire��o
+				ray.set(camera.position, direction);
+				//Verifica se o raio intersetou algum objeto na cena
+				intersects = ray.intersectObject(mesh);
+				if (intersects.length) {
+						//alert("hit");
+						alert('x: ' + mouse2.x + ' _ ' + 'y: ' + mouse2.y);
+				}
+		}
+
+
+
 
     function onWindowResize()
 		{
@@ -71,47 +90,34 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
 		}
-
     function animate()
 		{
       requestAnimationFrame( animate );
       render();
     }
 
-		var rotation = new THREE.Vector2();
-
 		function render()
 		{
-
 			keyboard.update();
 			mouse.update();
-
 			requestAnimationFrame(render);
-
 			if(mouse.buttonPressed(Mouse.LEFT))
 			{
-				rotation.x += mouse.delta.x * 0.01;
+				renderer.domElement.addEventListener('mousedown', onMouseDown);
 			}
 			if(mouse.buttonPressed(Mouse.RIGHT))
 			{
-					rotation.y += mouse.delta.y * 0.01;
+				rotation.x += mouse.delta.x * 0.01;
+				rotation.y += mouse.delta.y * 0.01;
 			}
-
 			var cos_angle_vertical = Math.cos(rotation.y);
 			var direction = new THREE.Vector3(Math.sin(rotation.x)*cos_angle_vertical, Math.sin(rotation.y), Math.cos(rotation.x)*cos_angle_vertical);
-
 			direction.add(group.position);
 			group.lookAt(direction);
-
 			camera.lookAt(scene.position);
 		  renderer.render(scene, camera);
 		};
 		render();
-
-
-
-
-
 		</script>
 	</body>
 </html>
