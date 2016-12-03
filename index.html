@@ -1,71 +1,71 @@
 <html>
-	<head>
-		<title>Project Final- WORLD</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<script src="threejs/three.js"></script>
-		<script src="threejs/Detector.js"></script>
-		<script src="threejs/renderers/CanvasRenderer.js"></script>
-		<script src="threejs/renderers/Projector.js"></script>
-		<script src="threejs/core/Raycaster.js"></script>
-		<script src="threejs/Stats.js"></script>
-		<script src="threejs/controls/OrbitControls.js"></script>
-		<script src="threejs/postprocessing/EffectComposer.js"></script>
-		<script src="threejs/postprocessing/RenderPass.js"></script>
-		<script src="threejs/postprocessing/ShaderPass.js"></script>
-		<script src="threejs/postprocessing/MaskPass.js"></script>
-		<script src="threejs/shaders/CopyShader.js"></script>
-		<script src="threejs/shaders/FXAAShader.js"></script>
-		<script src="js/main.js" type="text/javascript"></script>
-	</head>
-	<body>
+<head>
+    <title>Project Final- WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="threejs/three.js"></script>
+    <script src="threejs/Detector.js"></script>
+    <script src="threejs/renderers/CanvasRenderer.js"></script>
+    <script src="threejs/renderers/Projector.js"></script>
+    <script src="threejs/core/Raycaster.js"></script>
+    <script src="threejs/Stats.js"></script>
+    <script src="threejs/controls/OrbitControls.js"></script>
+    <script src="threejs/postprocessing/EffectComposer.js"></script>
+    <script src="threejs/postprocessing/RenderPass.js"></script>
+    <script src="threejs/postprocessing/ShaderPass.js"></script>
+    <script src="threejs/postprocessing/MaskPass.js"></script>
+    <script src="threejs/shaders/CopyShader.js"></script>
+    <script src="threejs/shaders/FXAAShader.js"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+</head>
+<body>
 
-		<div id="teste">
-				<h1 id="nome_pais"></h1>
-				<h3 id="capital"></h3>
-				<h3 id="latitude"></h3>
-				<h3 id="longitude"></h3>
-		</div>
+    <div id="teste">
+        <h1 id="nome_pais"></h1>
+        <h3 id="capital"></h3>
+        <h3 id="latitude"></h3>
+        <h3 id="longitude"></h3>
+    </div>
 
-		<script id="globeVertexShader" type="x-shader/x-vertex">
-				varying vec3 vNormal;
-				varying vec2 vUv;
-				void main()
-				{
-					gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0);
-					vNormal = normalize( normalMatrix * normal );
-					vUv = uv;
-				}
-		</script>
+    <script id="globeVertexShader" type="x-shader/x-vertex">
+        varying vec3 vNormal;
+        varying vec2 vUv;
+        void main()
+        {
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0);
+        vNormal = normalize( normalMatrix * normal );
+        vUv = uv;
+        }
+    </script>
 
-		<script id="globeFragmentShader" type="x-shader/x-fragment">
-				uniform sampler2D mapIndex;
-				uniform sampler2D lookup;
-				uniform sampler2D outline;
-				uniform sampler2D texturaMundo;
-				varying vec3 vNormal;
-				varying vec2 vUv;
-				void main()
-				{
-						vec4 mapColor = texture2D( mapIndex, vUv );
-						float indexedColor = mapColor.y;
-						vec2 lookupUV = vec2( indexedColor, 0.0 );
-						vec4 lookupColor = texture2D( lookup, lookupUV );
-						vec4 outlineColor = texture2D( outline, vUv );
-						vec4 blendColor = texture2D( texturaMundo, vUv );
-						gl_FragColor = 0.5 * outlineColor + 1.0 * lookupColor + 0.5 * blendColor;
-				}
-		</script>
+    <script id="globeFragmentShader" type="x-shader/x-fragment">
+        uniform sampler2D mapIndex;
+        uniform sampler2D lookup;
+        uniform sampler2D outline;
+        uniform sampler2D texturaMundo;
+        varying vec3 vNormal;
+        varying vec2 vUv;
+        void main()
+        {
+        vec4 mapColor = texture2D( mapIndex, vUv );
+        float indexedColor = mapColor.y;
+        vec2 lookupUV = vec2( indexedColor, 0.0 );
+        vec4 lookupColor = texture2D( lookup, lookupUV );
+        vec4 outlineColor = texture2D( outline, vUv );
+        vec4 blendColor = texture2D( texturaMundo, vUv );
+        gl_FragColor = 0.5 * outlineColor + 1.0 * lookupColor + 0.5 * blendColor;
+        }
+    </script>
 
-		<script>
-
+    <script>
 				//Variaveis
 				var container, scene, camera, renderer, controls, stats,	mapCanvas, mapContext, CanvasReferencia, ContextReferencia, TexturaReferencia, composer;
 				var projector = new THREE.Projector();
 				var	mouse2D = new THREE.Vector3( 0, 0, 0.5 );
 				var mesh;
-
+				var ecra_widht = window.innerWidth;
+				var ecra_height = window.innerHeight;
 				//Lista de paises com codigo de cor correspondente
 				var IndexCorPais = {
 					'PE':1,'BF':2,'FR':3,'LY':4,'BY':5,'PK':6,'ID':7,'YE':8,'MG':9,'BO':10,
@@ -92,17 +92,14 @@
 					'LI':211,'VG':212,'SH':213,'JE':214,'AI':215,'MF_1_':216,'GG':217,'SM':218,'BM':219,'TV':220,
 					'NR':221,'GI':222,'PN':223,'MC':224,'VA':225,'IM':226,'GU':227,'SG':228
 				};
-
 				init();
 				animate();
-
 				function init()
 				{
 					scene = new THREE.Scene();
-
 					//camera
-					var ecra_widht = window.innerWidth;
-					var ecra_height = window.innerHeight;
+					ecra_widht = window.innerWidth;
+					ecra_height = window.innerHeight;
 					var fov = 45;  //angulo da camara
 					var aspect  = ecra_widht / ecra_height; //aspect ratio
 					var near  = 0.1; //limite minimo?
@@ -111,30 +108,25 @@
 					scene.add(camera);
 					camera.position.set(0,250,250);
 					camera.lookAt(scene.position); //Isso faz com que a câmera veja a posição do vetor no espaço global, desde que o ªparentª seja a cena ou na posição (0,0,0)
-
 					//Insesir informção na div teste
 					if ( Detector.webgl ){
 						renderer = new THREE.WebGLRenderer( {antialias:false} );
 					}else{
 						renderer = new THREE.CanvasRenderer();
 					}
-					renderer.setSize(ecra_widht, ecra_height);
-
+					//renderer.setSize(500, ecra_height);
+					renderer.setSize(1000, ecra_height);
 					renderer.sortObjects = false;
 					renderer.generateMipmaps = false;
 					renderer.setClearColor(0x000000);
-
 					container = document.getElementById('teste');
 					container.appendChild( renderer.domElement );
-
 					//controlador da camara
 					controls = new THREE.OrbitControls( camera, renderer.domElement );
-
 					//luz para a esfera
-					var light = new THREE.PointLight(0xffffff);
-					light.position.set(100,250,100);
-					scene.add(light);
-
+					//var light = new THREE.PointLight(0xffffff);
+					//light.position.set(100,250,100);
+					//scene.add(light);
 					// Criação de uma textura de referencia para que cada pais tenha um codigo de cor cinza diferente dos outros.
 					CanvasReferencia = document.createElement('canvas');
 					CanvasReferencia.width = 256;
@@ -144,20 +136,16 @@
 					TexturaReferencia.magFilter = THREE.NearestFilter;
 					TexturaReferencia.minFilter = THREE.NearestFilter;
 					TexturaReferencia.needsUpdate = true;
-
 					var mapaTextura = THREE.ImageUtils.loadTexture("images/earth-index-shifted-gray.png");
 					mapaTextura.magFilter = THREE.NearestFilter;
 					mapaTextura.minFilter = THREE.NearestFilter;
 					mapaTextura.needsUpdate = true;
-
 					var mapaFronteiras = THREE.ImageUtils.loadTexture("images/earth-outline-shifted-gray.png");
 					mapaFronteiras.needsUpdate = true;
-
 					var texturaMundo = THREE.ImageUtils.loadTexture("images/earth-day.jpg");
-
 					var planeMaterial = new THREE.ShaderMaterial({
 						uniforms:{
-							width:      { type: "f", value: window.innerWidth },
+							width:      { type: "f", value: window.innerWidth*0.75 },
 							height:     { type: "f", value: window.innerHeight },
 							mapIndex:   { type: "t", value: mapaTextura },
 							outline:    { type: "t", value: mapaFronteiras },
@@ -167,15 +155,12 @@
 						vertexShader:   document.getElementById('globeVertexShader').textContent,
 						fragmentShader: document.getElementById('globeFragmentShader').textContent
 					});
-
 					var geometry = new THREE.SphereGeometry( 100, 64, 32 );
 					mesh = new THREE.Mesh( geometry, planeMaterial );
 					mesh.position.set(0,0,0);
 					scene.add(mesh);
-
 					document.addEventListener( 'mousemove', mouseMove,  false );
 					document.addEventListener( 'mousedown', mouseClick, false );
-
 					mapCanvas = document.createElement('canvas');
 					mapCanvas.width = 4096;
 					mapCanvas.height = 2048;
@@ -185,34 +170,26 @@
 				      mapContext.drawImage(imageObj, 0, 0);
 				  };
 				  imageObj.src = 'images/earth-index-shifted-gray.png';
-
 					renderer.autoClear = false;
-
 					composer = new THREE.EffectComposer( renderer );
-
 					var renderModel = new THREE.RenderPass( scene, camera );
-
-					var effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
+				//	var effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
 					var width = window.innerWidth || 2;
 					var height = window.innerHeight || 2;
-					effectFXAA.uniforms['resolution'].value.set(1/width, 1/ height);
-
+				//	effectFXAA.uniforms['resolution'].value.set(1/width, 1/ height);
 					var effectCopy = new THREE.ShaderPass( THREE.CopyShader );
 					effectCopy.renderToScreen = true;
-
 					composer.addPass(renderModel);
-					composer.addPass(effectFXAA);
+					//composer.addPass(effectFXAA);
 					composer.addPass(effectCopy);
 				}
-
 				function mouseMove(event){
 					mouse2D.x =   ( event.clientX / window.innerWidth  ) * 2 - 1;
 					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 				}
-
 				function mouseClick(event){
 					var raycaster = new THREE.Raycaster();
-					mouse2D.x =   ( event.clientX / window.innerWidth  ) * 2 - 1;
+					mouse2D.x =   ( event.clientX / 1000 ) * 2 - 1;
 					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 					var countryCode = -1;
 					raycaster.setFromCamera( mouse2D.clone(), camera );
@@ -224,7 +201,6 @@
 						var v = Math.round(2048 * (0.5 - Math.asin(d.y) / Math.PI));
 						var p = mapContext.getImageData(u,v,1,1).data;
 						countryCode = p[0];
-
 						for(var prop in IndexCorPais){
 				        if(IndexCorPais.hasOwnProperty(prop)){
 				             if(IndexCorPais[ prop ] === countryCode){
@@ -237,7 +213,6 @@
 											        console.log(res[0]);
 															var data2 = JSON.stringify(res[1]);
 															var ola = JSON.parse(data2);
-
 															$("#nome_pais").html(ola[0].name);
 															$("#capital").html(ola[0].capitalCity);
 															$("#latitude").html("Lat: " + ola[0].longitude);
@@ -251,9 +226,7 @@
 										 }
 								}
 						}
-
 						ContextReferencia.clearRect(0,0,256,1);
-
 						for (var i = 0; i < 228; i++)
 						{
 							if (i == 0)
@@ -262,35 +235,29 @@
 								ContextReferencia.fillStyle = "rgba(0,0,255,0.5)"
 							else
 								ContextReferencia.fillStyle = "rgba(0,0,0,1.0)"
-
 							ContextReferencia.fillRect( i, 0, 1, 1 );
 						}
-
 						TexturaReferencia.needsUpdate = true;
 					}
-
 				}
-
 				function animate()
 				{
 				  requestAnimationFrame( animate );
 					render();
 					update();
 				}
-
 				function update()
 				{
 					controls.update();
 					if (camera.position.length() < 300) camera.position.setLength(300);
 					if (camera.position.length() > 1000) camera.position.setLength(1000);
 				}
-
 				function render()
 				{
 					renderer.clear();
 					renderer.render( scene, camera );
 				}
-			</script>
+    </script>
 
-		</body>
+</body>
 </html>
