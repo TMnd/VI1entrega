@@ -25,6 +25,7 @@
         </style>
 	</head>
 	<body>
+        <div id="ola"></div>
         <script id="globeVertexShader" type="x-shader/x-vertex">
             varying vec3 vNormal;
             varying vec2 vUv;
@@ -103,7 +104,7 @@
 
                 //camera
                 
-                var ecra_widht = window.innerWidth;//window.innerWidth * 0.625;
+                var ecra_widht = 850;//window.innerWidth * 0.625;
                 var ecra_height = window.innerHeight;//window.innerHeight * 0.975;
                 var fov = 45;  //angulo da camara
                 var aspect = ecra_widht / ecra_height; //aspect ratio
@@ -251,13 +252,36 @@
                                     jsonp: "prefix",
                                     jsonpCallback: "jquery_" + (new Date).getTime(),
                                     success: function (data) {
+                                        var maximo = 0;
+                                        var minimo = 100000;
                                         dados = data[1];
                                         for (var i = 0; i < dados.length; i++) {
-                                            var calculo = dados[i].value/4000;
+                                            if (dados[i].value > maximo) {
+                                                maximo = dados[i].value;
+                                            }
+                                            if (dados[i].value < minimo) {
+                                                minimo = dados[i].value;
+                                            }
+                                        }
+                                        for (var i = 0; i < dados.length; i++) {
+                                            var calculo = dados[i].value / 4000;
+                                            console.log(dados);
                                             if (i === 0) {
-                                                createBar(1, i, cores[i], calculo, dados[i].date, dados[i].value);   
+                                                if(maximo === dados[i].value){
+                                                    createBar(1, i, "red"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                } else if (minimo === dados[i].value) {
+                                                    createBar(1, i, "blue"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                } else {
+                                                    createBar(1, i, "gray"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                }
                                             } else {
-                                                createBar(1, i * -8, cores[i], calculo, dados[i].date, dados[i].value);
+                                                if (maximo === dados[i].value) {
+                                                    createBar(1, i * -4, "red"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                } else if (minimo === dados[i].value) {
+                                                    createBar(1, i * -4, "blue"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                } else {
+                                                    createBar(1, i * -4, "gray"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                }
                                             }
                                         }
                                     }
@@ -320,12 +344,16 @@
 
                 // Setup Scene / Camera
                 scene_grafico = new THREE.Scene();
-                camera_grafico = new THREE.PerspectiveCamera(/*75*/6, window.innerWidth / window.innerHeight, 0.1, 2000);
-
-                camera_grafico.position.set(500, 100, 0);
+                camera_grafico = new THREE.PerspectiveCamera(55, 480 / window.innerHeight, 0.1, 2000);
+                //camera_grafico.position.z = 50;
+                camera_grafico.position.set(50, 60, 25);
+                camera_grafico.lookAt(new THREE.Vector3(10, 36, -10));
+                //camera_grafico.position.set(500, 500, -100);
+              //  camera_grafico.position.set(90, 0, 0);
+                //console.log(camera_grafico.position);
                 //camera_grafico.position.set(100,100,100);
-                //camera_grafico.lookAt(new THREE.Vector3(20, 60, 0));
-                camera_grafico.lookAt(scene_grafico/*new THREE.Vector3(200, -150,*/);
+             //   camera_grafico.lookAt(new THREE.Vector3(0, 0, 0));
+               // camera_grafico.lookAt(new THREE.Vector3(200, -150, 0));
 
                 // Setup Renderer
                 renderer_grafico = new THREE.WebGLRenderer({
@@ -340,8 +368,10 @@
                 renderer_grafico.setSize(480, window.innerHeight);
                 renderer.render(scene_grafico, camera_grafico);
 
+                //var container = document.getElementById("ola");
+                //container.appendChild(renderer_grafico.domElement);
                 document.body.appendChild(renderer_grafico.domElement);
-                var camaraControls_grafico = new THREE.OrbitControls(camera_grafico, renderer_grafico.domElement);
+                //var camaraControls_grafico = new THREE.OrbitControls(camera_grafico, renderer_grafico.domElement);
 
             }
 
@@ -369,12 +399,12 @@
 
                     for (var i = 0; i < geometry_grafico.vertices.length; i++) {
                         if (i == 2) {
-                            var spritey = makeTextSprite(" " + texto + " ", { fontsize: 55, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
-                            spritey.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y, geometry_grafico.vertices[i].z - 2);
+                            var spritey = makeTextSprite(" " + texto + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
+                            spritey.position.set(geometry_grafico.vertices[i].x + 10, geometry_grafico.vertices[i].y + 2, geometry_grafico.vertices[i].z - 2);
                             scene_grafico.add(spritey);
                         } else if (i == 4) {
-                            spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 30, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
-                            spritey_numero.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y + height * 1.8, geometry_grafico.vertices[i].z - 2); 7
+                            spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 20, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
+                            spritey_numero.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y + height *1.8, geometry_grafico.vertices[i].z - 2);
                             spritey_numero_array.push(spritey_numero);
                             scene_grafico.add(spritey_numero);
                         }
