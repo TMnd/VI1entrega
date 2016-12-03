@@ -1,38 +1,29 @@
-body { margin: 0; }
+body { 
+    margin: 0; 
+    background-color: black;
+}
 /*canvas { width: 100%; height: 100% }*/
 
-#teste{
-  
+#pais{
+    position: absolute;
+    color: white;
+    left: 750px;
+    
 }
 
-#nome_pais{
-  position: absolute;
-  z-index: 5px;
-  color: gray;
-  margin-left: 40px;
-  margin-top: 25px;
+#pais_nome{
+    color: white;
+    font-size: 35px;
 }
 
-#capital{
-  position: absolute;
-  z-index: 5px;
-  color: gray;
-  margin-left: 40px;
-  margin-top: 60px;
+#coordenadas{
+    position: absolute;
+    left: 750px;
+    top: 45px;
 }
-#latitude{
-  position: absolute;
-  z-index: 5px;
-  color: gray;
-  margin-left: 40px;
-  margin-top: 85px;
-}
-#longitude{
-  position: absolute;
-  z-index: 5px;
-  color: gray;
-  margin-left: 40px;
-  margin-top: 115px;
+
+#coordenadas_latlog{
+    color:white;
 }
 
 #canvas{

@@ -18,14 +18,11 @@
 		<script src="threejs/shaders/FXAAShader.js"></script>
 		<script src="js/main.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
-        <style>
-            body{
-                background-color: white;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-        <div id="ola"></div>
+        <div id="pais"></div>
+        <div id="coordenadas"></div>
         <script id="globeVertexShader" type="x-shader/x-vertex">
             varying vec3 vNormal;
             varying vec2 vUv;
@@ -103,7 +100,6 @@
                 scene = new THREE.Scene();
 
                 //camera
-                
                 var ecra_widht = 850;//window.innerWidth * 0.625;
                 var ecra_height = window.innerHeight;//window.innerHeight * 0.975;
                 var fov = 45;  //angulo da camara
@@ -247,7 +243,29 @@
                                     aux = 1;
                                 }
                                 $.ajax({
-                                    url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/NY.GNP.PCAP.CD?date=2000:2010&format=jsonp',
+                                    url: 'http://api.worldbank.org/countries/' + prop + '?format=jsonP',
+                                    dataType: 'jsonp',
+                                    jsonp: "prefix",
+                                    jsonpCallback: "jquery_" + (new Date).getTime(),
+                                    success: function (res) {
+                                        console.log(res[0]);
+                                        var data2 = JSON.stringify(res[1]);
+                                        var data = JSON.parse(data2);
+
+                                        $("#pais").html("<p><span id='pais_nome'>"+data[0].name + "</span> - " + data[0].capitalCity + "</p>");
+                                        $("#coordenadas").html("<p id='coordenadas_latlog'>Lat: " + data[0].longitude + " / Log: " + data[0].latitude +"</p>");
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.log("Error");
+                                    }
+                                });
+                                //var indicador = 'EN.POP.DNST'; //Population density
+                                //var indicador = 'SP.POP.GROW'; //Population growth
+                                //var indicador = 'SH.DYN.MORT';
+                                var indicador = 'SP.DYN.TFRT.IN';
+                                $.ajax({
+                                    //url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/NY.GNP.PCAP.CD?date=2000:2010&format=jsonp',
+                                    url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/'+ indicador +'?date=2000:2010&format=jsonp',
                                     dataType: 'jsonp',
                                     jsonp: "prefix",
                                     jsonpCallback: "jquery_" + (new Date).getTime(),
@@ -264,47 +282,53 @@
                                             }
                                         }
                                         for (var i = 0; i < dados.length; i++) {
-                                            var calculo = dados[i].value / 4000;
-                                            console.log(dados);
+                                            if (indicador === 'EN.POP.DNST') {
+                                                var calculo = (20*(Math.round(dados[i].value * 100) / 100))/365 ;//* 0.05;
+                                                console.log(calculo);
+                                               // var string = n.toString().split(".");
+                                                //var calculo = string[0]/5;
+                                                var dados_valores = Math.round(dados[i].value * 100) / 100;
+                                            } else if (indicador === 'SP.POP.GROW') {
+                                                var calculo = dados[i].value * 10;//(Math.round(dados[i].value * 100) / 100);
+                                                var dados_valores = Math.round(dados[i].value * 100)/100;
+                                            } else if (indicador === 'SH.DYN.MORT') {
+                                                if (dados[i].value > 18) {
+                                                    var calculo = dados[i].value * 0.15;
+                                                    var dados_valores = dados[i].value;
+                                                    //INSERIR AVISO DE RECALCULO
+                                                } else {
+                                                    var calculo = dados[i].value;
+                                                    var dados_valores = dados[i].value;
+                                                }
+                                            } else if (indicador === 'SP.DYN.TFRT.IN') {
+                                                var calculo = dados[i].value*2;
+                                                var dados_valores = dados[i].value;
+                                            }
+
+
                                             if (i === 0) {
                                                 if(maximo === dados[i].value){
-                                                    createBar(1, i, "red"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                    createBar(1, i, "red"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else if (minimo === dados[i].value) {
-                                                    createBar(1, i, "blue"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                    createBar(1, i, "blue"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else {
-                                                    createBar(1, i, "gray"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                    createBar(1, i, "gray"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 }
                                             } else {
                                                 if (maximo === dados[i].value) {
-                                                    createBar(1, i * -4, "red"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                    createBar(1, i * -4, "red"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else if (minimo === dados[i].value) {
-                                                    createBar(1, i * -4, "blue"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                    createBar(1, i * -4, "blue"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else {
-                                                    createBar(1, i * -4, "gray"/*cores[i]*/, calculo, dados[i].date, dados[i].value);
+                                                    createBar(1, i * -4, "gray"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 }
                                             }
                                         }
-                                    }
-                                   /* url: 'http://api.worldbank.org/countries/' + prop + '?format=jsonP',
-                                    dataType: 'jsonp',
-                                    jsonp: "prefix",
-                                    jsonpCallback: "jquery_" + (new Date).getTime(),
-                                    success: function (res) {
-                                        console.log(res[0]);
-                                        var data2 = JSON.stringify(res[1]);
-                                        var ola = JSON.parse(data2);
-
-                                        $("#nome_pais").html(ola[0].name);
-                                        $("#capital").html(ola[0].capitalCity);
-                                        $("#latitude").html("Lat: " + ola[0].longitude);
-                                        $("#longitude").html("Log: " + ola[0].latitude);
-                                        //console.log(ola[0].name);
                                     },
                                     error: function (xhr, status, error) {
                                         console.log("Error");
-                                    }*/
-                                });
-                                createLight();
+                                    }
+                                }); 
                             }
                         }
                     }
@@ -324,10 +348,6 @@
                 }
             }
 
-            function move(element, y) { //"speed" is pixels per second
-                return TweenMax.to(element,1, { y: y, ease: Linear.easeNone, onCompleteParams: [this.rNum] });
-            }
-
             function animate() {
                 requestAnimationFrame(animate);
                 render();
@@ -344,10 +364,10 @@
 
                 // Setup Scene / Camera
                 scene_grafico = new THREE.Scene();
-                camera_grafico = new THREE.PerspectiveCamera(55, 480 / window.innerHeight, 0.1, 2000);
+                camera_grafico = new THREE.PerspectiveCamera(45, 480 / window.innerHeight, 0.1, 2000);
                 //camera_grafico.position.z = 50;
                 camera_grafico.position.set(50, 60, 25);
-                camera_grafico.lookAt(new THREE.Vector3(10, 36, -10));
+                camera_grafico.lookAt(new THREE.Vector3(9, 30, -10));
                 //camera_grafico.position.set(500, 500, -100);
               //  camera_grafico.position.set(90, 0, 0);
                 //console.log(camera_grafico.position);
@@ -372,7 +392,7 @@
                 //container.appendChild(renderer_grafico.domElement);
                 document.body.appendChild(renderer_grafico.domElement);
                 //var camaraControls_grafico = new THREE.OrbitControls(camera_grafico, renderer_grafico.domElement);
-
+                createLight();
             }
 
             function createBar(total, z, colour, height, texto, value) {
@@ -403,7 +423,7 @@
                             spritey.position.set(geometry_grafico.vertices[i].x + 10, geometry_grafico.vertices[i].y + 2, geometry_grafico.vertices[i].z - 2);
                             scene_grafico.add(spritey);
                         } else if (i == 4) {
-                            spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 20, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
+                            spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 25, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
                             spritey_numero.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y + height *1.8, geometry_grafico.vertices[i].z - 2);
                             spritey_numero_array.push(spritey_numero);
                             scene_grafico.add(spritey_numero);
