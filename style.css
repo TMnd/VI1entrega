@@ -30,3 +30,17 @@ body {
     width: 300px;
     position: static;
 }
+
+.dropdown{
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#demografia{
+    position: absolute;
+    left: 750px;
+    top: 120px;
+    font-size: 35px;
+    color: white;
+}

@@ -18,11 +18,26 @@
 		<script src="threejs/shaders/FXAAShader.js"></script>
 		<script src="js/main.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
         <div id="pais"></div>
         <div id="coordenadas"></div>
+        <div id="demografia"></div>
+        <div class="dropdown" id="dropdown_menu">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Dropdown Example
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><input type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element">Population density</span></li>
+                <li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element">Population growt</span></li>
+                <li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element">Mortality rate</span></li>
+                <li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element">Fertility rate, total (births per woman)</span></li>
+            </ul>
+        </div>
         <script id="globeVertexShader" type="x-shader/x-vertex">
             varying vec3 vNormal;
             varying vec2 vUv;
@@ -94,6 +109,23 @@
 
             initGlobo();
             initGrafico();
+            
+            //Extras
+            function checkOption() {
+                if (document.getElementById('option1').checked) {
+                    document.getElementById("demografia").innerHTML = document.getElementById('option1_element').innerHTML;
+                    return document.getElementById('option1').value;
+                } else if (document.getElementById('option2').checked) {
+                    document.getElementById("demografia").innerHTML = document.getElementById('option2_element').innerHTML;
+                    return document.getElementById('option2').value;
+                } else if (document.getElementById('option3').checked) {
+                    document.getElementById("demografia").innerHTML = document.getElementById('option3_element').innerHTML;
+                    return document.getElementById('option3').value;
+                } else if (document.getElementById('option4').checked) {
+                    document.getElementById("demografia").innerHTML = document.getElementById('option4_element').innerHTML;
+                    return document.getElementById('option4').value;
+                }
+            }
 
             //Globo
             function initGlobo() {
@@ -262,7 +294,7 @@
                                 //var indicador = 'EN.POP.DNST'; //Population density
                                 //var indicador = 'SP.POP.GROW'; //Population growth
                                 //var indicador = 'SH.DYN.MORT';
-                                var indicador = 'SP.DYN.TFRT.IN';
+                                var indicador = checkOption();
                                 $.ajax({
                                     //url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/NY.GNP.PCAP.CD?date=2000:2010&format=jsonp',
                                     url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/'+ indicador +'?date=2000:2010&format=jsonp',
@@ -293,12 +325,12 @@
                                                 var dados_valores = Math.round(dados[i].value * 100)/100;
                                             } else if (indicador === 'SH.DYN.MORT') {
                                                 if (dados[i].value > 18) {
-                                                    var calculo = dados[i].value * 0.15;
-                                                    var dados_valores = dados[i].value;
+                                                    var calculo = (Math.round(dados[i].value * 100)/100) * 0.15;
+                                                    var dados_valores = Math.round(dados[i].value * 100) / 100
                                                     //INSERIR AVISO DE RECALCULO
                                                 } else {
-                                                    var calculo = dados[i].value;
-                                                    var dados_valores = dados[i].value;
+                                                    var calculo = Math.round(dados[i].value * 100) / 100
+                                                    var dados_valores = Math.round(dados[i].value * 100) / 100
                                                 }
                                             } else if (indicador === 'SP.DYN.TFRT.IN') {
                                                 var calculo = dados[i].value*2;
