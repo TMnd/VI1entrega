@@ -26,8 +26,9 @@
         <div id="pais"></div>
         <div id="coordenadas"></div>
         <div id="demografia"></div>
-        <div class="dropdown" id="dropdown_menu">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+
+        <!--<div class="dropdown" id="dropdown_menu">
+             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 Dropdown Example
                 <span class="caret"></span>
             </button>
@@ -38,7 +39,44 @@
                 <li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element">Fertility rate, total
 																																																											<p>(births per woman)</p></span></li>
             </ul>
-        </div>
+        </div>-->
+
+
+				<nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
+						<div class="navbar-toggler animate">
+							<span class="menu-icon"></span>
+						</div>
+						<ul class="navbar-menu animate">
+							<li>
+								<a href="#blog" class="animate">
+									<span class="desc animate"> Trabalho Realizado por: Joao Amaral e Mafalda Rodrigues </span>
+									<span class="glyphicon glyphicon-info-sign"></span>
+								</a>
+							</li>
+							<li class="dropdown">
+							          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span  class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+							          <ul class="dropdown-menu forAnimate" role="menu">
+													<li><input checked type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element"> Population density</span></li>
+													<li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element"> Population growt </span></li>
+													<li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element"> Mortality rate </span></li>
+													<li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element"> Fertility rate, total
+																																																																<p>(births per woman)</p></span></li>
+
+							          </ul>
+							        </li>
+
+
+							<!--	<a href="#contact-us" class="animate">
+									<span class="desc animate"> How To Reach Us </span>
+									<span class="glyphicon glyphicon-comment"></span>
+								</a>
+							</li>-->
+						</ul>
+					</nav>
+
+
+
+
         <script id="globeVertexShader" type="x-shader/x-vertex">
             varying vec3 vNormal;
             varying vec2 vUv;
