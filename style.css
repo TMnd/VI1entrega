@@ -1,5 +1,5 @@
-body { 
-    margin: 0; 
+body {
+    margin: 0;
     background-color: black;
 }
 /*canvas { width: 100%; height: 100% }*/
@@ -7,8 +7,8 @@ body {
 #pais{
     position: absolute;
     color: white;
-    left: 750px;
-    
+    left: 900px;
+
 }
 
 #pais_nome{
@@ -18,7 +18,7 @@ body {
 
 #coordenadas{
     position: absolute;
-    left: 750px;
+    left: 1000px;
     top: 45px;
 }
 
@@ -39,8 +39,9 @@ body {
 
 #demografia{
     position: absolute;
-    left: 750px;
-    top: 120px;
+
+    left: 650px;
+
     font-size: 35px;
     color: white;
 }

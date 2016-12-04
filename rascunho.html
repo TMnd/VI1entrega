@@ -33,8 +33,8 @@
             </button>
             <ul class="dropdown-menu">
                 <li><input type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element">Population density of</span></li>
-                <li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element">Population growt of</span></li>
-                <li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element">Mortality rate of</span></li>
+                <li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element">Population growt</span></li>
+                <li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element">Mortality rate</span></li>
                 <li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element">Fertility rate, total
 																																																											<p>(births per woman)</p></span></li>
             </ul>
@@ -298,7 +298,7 @@
                                 var indicador = checkOption();
                                 $.ajax({
                                     //url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/NY.GNP.PCAP.CD?date=2000:2010&format=jsonp',
-                                    url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/'+ indicador +'?date=2000:2005&format=jsonp',
+                                    url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/'+ indicador +'?date=2005:2010&format=jsonp',
                                     dataType: 'jsonp',
                                     jsonp: "prefix",
                                     jsonpCallback: "jquery_" + (new Date).getTime(),
@@ -323,19 +323,20 @@
                                                 var dados_valores = Math.round(dados[i].value * 10) / 10;
                                             } else if (indicador === 'SP.POP.GROW') {
                                                 var calculo = dados[i].value * 10;//(Math.round(dados[i].value * 100) / 100);
-                                                var dados_valores = Math.round(dados[i].value * 10) / 10;
+                                                var dados_valores = Math.round(dados[i].value * 10)/10;
                                             } else if (indicador === 'SH.DYN.MORT') {
                                                 if (dados[i].value > 18) {
                                                     var calculo = (Math.round(dados[i].value * 100)/100) * 0.15;
-                                                    var dados_valores = Math.round(dados[i].value * 10) / 10;
+                                                    var dados_valores = Math.round(dados[i].value * 10) / 10
                                                     //INSERIR AVISO DE RECALCULO
                                                 } else {
-                                                    var calculo = Math.round(dados[i].value * 100) / 100;
-                                                    var dados_valores = Math.round(dados[i].value * 10) / 10;
+                                                    var calculo = Math.round(dados[i].value * 100) / 100
+                                                    var dados_valores = Math.round(dados[i].value * 10) / 10
                                                 }
                                             } else if (indicador === 'SP.DYN.TFRT.IN') {
                                                 var calculo = dados[i].value*2;
-                                                var dados_valores =Math.round(dados[i].value * 10) / 10;
+																								var dados_valores = Math.round(dados[i].value * 10) / 10
+
                                             }
 
 
@@ -349,11 +350,11 @@
                                                 }
                                             } else {
                                                 if (maximo === dados[i].value) {
-                                                    createBar(1, i * -6, "red"/*cores[i]*/, calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i * -5, "red"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else if (minimo === dados[i].value) {
-                                                    createBar(1, i * -6, "blue"/*cores[i]*/, calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i * -5, "blue"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else {
-                                                    createBar(1, i * -6, "gray"/*cores[i]*/, calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i * -5, "gray"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 }
                                             }
                                         }
@@ -405,13 +406,14 @@
     						camera.lookAt(new THREE.Vector3(100, 40, 0));*/
 
 
-								camera_grafico = new THREE.PerspectiveCamera(45, 480 / window.innerHeight, 0.1, 2000);
+								camera_grafico = new THREE.PerspectiveCamera(42, 480 / window.innerHeight, 0.1, 2000);
                 //camera_grafico.position.z = 50
 								//anda para a direita,;
-                camera_grafico.position.set(82, 15, 18);
+                camera_grafico.position.set(90, 15, 18);
+								//camera_grafico.position.set(80, 35, 18);
 								//anda para a esquerda, para baixo e cima1
 
-                camera_grafico.lookAt(new THREE.Vector3(45, 22, 0));
+                camera_grafico.lookAt(new THREE.Vector3(-15, 32, -30));
 
 
 
@@ -468,8 +470,8 @@
                     for (var i = 0; i < geometry_grafico.vertices.length; i++) {
                         if (i == 2) {
 													//ano
-                            var spritey = makeTextSprite(" " + texto + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
-                            spritey.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y -3, geometry_grafico.vertices[i].z - 4);
+                            var spritey = makeTextSprite(" " + texto + " ", { fontsize: 40, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
+                            spritey.position.set(geometry_grafico.vertices[i].x + 5, geometry_grafico.vertices[i].y-3, geometry_grafico.vertices[i].z - 4);
                             scene_grafico.add(spritey);
                         } else if (i == 4) {
                             spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
