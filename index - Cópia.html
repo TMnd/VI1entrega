@@ -72,6 +72,8 @@
 								</a>
 							</li>-->
 						</ul>
+                    <span id="anoi">Ano I.</span><textarea id="textarea1">2005</textarea>
+                    <span id="anof">Ano F.</span><textarea id="textarea2" disabled>2010</textarea>
 					</nav>
 
 
@@ -112,7 +114,7 @@
             var projector = new THREE.Projector();
             var mouse2D = new THREE.Vector3(0, 0, 0.5);
             var mesh;
-            var renderer_grafico, scene_grafico, camera_grafico, geometry_grafico, tween, aux=0, expandTween = [], spritey_numero_array = [], spritey_numero, barras_obj;
+            var renderer_grafico, scene_grafico, camera_grafico, geometry_grafico, tween, aux=0, expandTween = [], spritey_numero_array = [], spritey_ano_array=[], spritey_numero, barras_obj;
             //Grafico
             var tick = 0;
             var size = 0.25;
@@ -283,6 +285,10 @@
             }
             //Para interagir com o globo
             function mouseClick(event) {
+                //Ver anos inseridos
+                var dataInicio = document.getElementById('textarea1').value;
+                var dataFim = parseInt(dataInicio) + 5;
+                document.getElementById('textarea2').innerHTML = dataFim;
                 var raycaster = new THREE.Raycaster();
                 mouse2D.x = (event.clientX / 850) * 2 - 1;
                 mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -307,7 +313,9 @@
                                     }
                                     expandTween.length = 0;
                                     bar.length = 0;
-                                    console.log(spritey_numero_array);
+                                    for (var i = 0; i < spritey_ano_array.length; i++) {
+                                        scene_grafico.remove(spritey_ano_array[i]);
+                                    }
                                     for (var i = 0; i < spritey_numero_array.length; i++) {
                                         scene_grafico.remove(spritey_numero_array[i]);
                                     }
@@ -330,13 +338,11 @@
                                         console.log("Error");
                                     }
                                 });
-                                //var indicador = 'EN.POP.DNST'; //Population density
-                                //var indicador = 'SP.POP.GROW'; //Population growth
-                                //var indicador = 'SH.DYN.MORT';
+
                                 var indicador = checkOption();
                                 $.ajax({
                                     //url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/NY.GNP.PCAP.CD?date=2000:2010&format=jsonp',
-                                    url: 'http://api.worldbank.org/countries/'+ prop +'/indicators/'+ indicador +'?date=2000:2005&format=jsonp',
+                                    url: 'http://api.worldbank.org/countries/' + prop + '/indicators/' + indicador + '?date=' + dataInicio + ':' + dataFim + '&format=jsonp',
                                     dataType: 'jsonp',
                                     jsonp: "prefix",
                                     jsonpCallback: "jquery_" + (new Date).getTime(),
@@ -507,7 +513,8 @@
                         if (i == 2) {
 													//ano
                             var spritey = makeTextSprite(" " + texto + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
-                            spritey.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y -3, geometry_grafico.vertices[i].z - 4);
+                            spritey.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y - 3, geometry_grafico.vertices[i].z - 4);
+                            spritey_ano_array.push(spritey);
                             scene_grafico.add(spritey);
                         } else if (i == 4) {
                             spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
