@@ -373,25 +373,43 @@
                                         }
                                         for (var i = 0; i < dados.length; i++) {
                                             if (indicador === 'EN.POP.DNST') {
-                                                var calculo = (20*(Math.round(dados[i].value * 100) / 100))/365 ;//* 0.05;
-                                                console.log(calculo);
-                                               // var string = n.toString().split(".");
-                                                //var calculo = string[0]/5;
-                                                var dados_valores = Math.round(dados[i].value * 10) / 10;
-                                            } else if (indicador === 'SP.POP.GROW') {
-                                                var calculo = dados[i].value * 10;//(Math.round(dados[i].value * 100) / 100);
-                                                var dados_valores = Math.round(dados[i].value * 10) / 10;
-                                            } else if (indicador === 'SH.DYN.MORT') {
-                                                if (dados[i].value > 18) {
-                                                    var calculo = (Math.round(dados[i].value * 100)/100) * 0.15;
+                                                if (dados[i].value < 100) {
+                                                    //Escala 20 : 100
+                                                    var calculo = (20 * (Math.round(dados[i].value * 100) / 100)) / 100;//* 0.05;
+                                                    console.log(calculo);
                                                     var dados_valores = Math.round(dados[i].value * 10) / 10;
-                                                    //INSERIR AVISO DE RECALCULO
+                                                } else if (dados[i].value > 100 && dados[i].value < 365) {
+                                                    //Escala 20 : 300
+                                                    var calculo = (20 * (Math.round(dados[i].value * 100) / 100)) / 300;//* 0.05;
+                                                    console.log(calculo);
+                                                    var dados_valores = Math.round(dados[i].value * 10) / 10;
+                                                } else if (dados[i].value > 365 && dados[i].value < 550) {
+                                                    //Escala 20 : 500
+                                                    var calculo = (20 * (Math.round(dados[i].value * 100) / 100)) / 500;//* 0.05;
+                                                    console.log(calculo);
+                                                    var dados_valores = Math.round(dados[i].value * 10) / 10;
+                                                } 
+                                            } else if (indicador === 'SP.POP.GROW') {
+                                                //Escala 1:5
+                                                var calculo = dados[i].value * 5;
+                                                var dados_valores = Math.round(dados[i].value * 100) / 100;
+                                            } else if (indicador === 'SH.DYN.MORT') {
+                                                if (dados[i].value < 30) {
+                                                    //Escala 1:1
+                                                    var calculo = dados[i].value;
+                                                    var dados_valores = Math.round(dados[i].value * 10) / 10;
+                                                } else if (dados[i].value > 30 && dados[i].value > 50) {
+                                                    //Escala 1:15
+                                                    var calculo = dados[i].value * 0.15;
+                                                    var dados_valores = Math.round(dados[i].value * 10) / 10;
                                                 } else {
-                                                    var calculo = Math.round(dados[i].value * 100) / 100;
+                                                    //Escala 1:100
+                                                    var calculo = dados[i].value / 100;
                                                     var dados_valores = Math.round(dados[i].value * 10) / 10;
                                                 }
                                             } else if (indicador === 'SP.DYN.TFRT.IN') {
-                                                var calculo = dados[i].value*2;
+                                                //Escala 1:1
+                                                var calculo = dados[i].value;
                                                 var dados_valores =Math.round(dados[i].value * 10) / 10;
                                             }
 
@@ -427,7 +445,7 @@
                         if (i == 0)
                             ContextReferencia.fillStyle = "rgba(0,0,0,1.0)"
                         else if (i == countryCode)
-                            ContextReferencia.fillStyle = "rgba(0,0,255,0.5)"
+                            ContextReferencia.fillStyle = "rgba(158,202,59,0.3)"
                         else
                             ContextReferencia.fillStyle = "rgba(0,0,0,1.0)"
 
