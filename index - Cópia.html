@@ -33,13 +33,13 @@
 			<ul class="navbar-menu animate">
 			    <li>
 				    <a href="#blog" class="animate">
-					    <span class="desc animate"> Trabalho Realizado por: Joao Amaral e Mafalda Rodrigues </span>
+					    <span class="desc animate"> Work done by Joao Amaral and Mafalda Rodrigues</span>
 					    <span class="glyphicon glyphicon-info-sign"></span>
 					</a>
 				</li>
 				<li>
 				    <a href="#contact-us" class="animate" class="dropdown-toggle" data-toggle="dropdown" class="animate">
-						<span class="glyphicon glyphicon-user"></span>	</a>
+						<span class="glyphicon glyphicon-signal"></span>	</a>
 						<ul class="dropdown-menu forAnimate desc animate" role="menu">
 							<li><input checked type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element"> Population density</span></li>
 							<li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element"> Population growt </span></li>
@@ -48,21 +48,21 @@
   						</ul>
 				</li>
 			</ul>
-            <span id="anoi">Ano I.</span><textarea id="textarea1">2005</textarea>
-            <span id="anof">Ano F.</span><textarea id="textarea2" disabled>2010</textarea>
+            <span id="anoi">Initial Year</span><textarea id="textarea1">2005</textarea>
+            <span id="anof">Final year</span><textarea id="textarea2" disabled>2010</textarea>
 		</nav>
         <table id="tabela">
             <tr>
-                <th>Escala:</th>
+                <th>Scale:</th>
                 <th id="escala"></th>
             </tr>
             <tr>
                 <th><div id="legenda1"></div></th>
-                <th>Valor Máximo</th>
+                <th>Maximum value</th>
             </tr>
             <tr>
                 <th><div id="legenda2"></div></th>
-                <th>Valor Mínimo</th>
+                <th>Minimum value</th>
             </tr>
         </table>
 
@@ -109,7 +109,7 @@
             var bar = new Array();
             var projector = new THREE.Projector();
             var mouse = new THREE.Vector3(0, 0, 0.5);
-           
+
             //Lista de paises com codigo de cinzas correspondente
             var IndexCorPais = {
                 'PE': 1, 'BF': 2, 'FR': 3, 'LY': 4, 'BY': 5, 'PK': 6, 'ID': 7, 'YE': 8, 'MG': 9, 'BO': 10,
@@ -165,10 +165,10 @@
                 //camera
                 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
                 camera_grafico = new THREE.PerspectiveCamera(45, 480 / window.innerHeight, 0.1, 2000);
-                           
+
                 camera.position.set(0, 250, 250);
                 camera_grafico.position.set(82, 15, 18); //anda para a direita;
-                camera.lookAt(scene.position); //Isso faz com que a camera veja a posição no vetor no espaço tridimensional, desde que o "parent" seja a cena "scene"    
+                camera.lookAt(scene.position); //Isso faz com que a camera veja a posição no vetor no espaço tridimensional, desde que o "parent" seja a cena "scene"
                 camera_grafico.lookAt(new THREE.Vector3(45, 22, 0)); //anda para a esquerda, para baixo e cima
 
                 scene.add(camera);
@@ -180,7 +180,7 @@
                     renderer = new THREE.CanvasRenderer();
                     renderer_grafico = new THREE.WebGLRenderer();
                 }
-                
+
                 //Tamanho das scenes
                 renderer.setSize(850, ecra_height); //scene na esquerda
                 renderer_grafico.setSize(480, window.innerHeight); //scene na direita
@@ -374,7 +374,7 @@
                                                     var calculo = (20 * (Math.round(dados[i].value * 100) / 100)) / 500;//* 0.05;
                                                     console.log(calculo);
                                                     var dados_valores = Math.round(dados[i].value * 10) / 10;
-                                                } 
+                                                }
                                             } else if (indicador === 'SP.POP.GROW') {
                                                 document.getElementById('escala').innerHTML = '1 : 5';
                                                 var calculo = dados[i].value * 5;
@@ -398,7 +398,7 @@
                                                 var calculo = dados[i].value;
                                                 var dados_valores =Math.round(dados[i].value * 10) / 10;
                                             }
-                                            
+
                                             if (i === 0) {
                                                 if(maximo === dados[i].value){
                                                     criarBar(1, i, "red", calculo, dados[i].date, dados_valores);
