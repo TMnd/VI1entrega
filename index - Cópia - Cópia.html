@@ -26,31 +26,69 @@
         <div id="pais"></div>
         <div id="coordenadas"></div>
         <div id="demografia"></div>
-		<nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
-		    <div class="navbar-toggler animate">
-		        <span class="menu-icon"></span>
-			</div>
-			<ul class="navbar-menu animate">
-			    <li>
-				    <a href="#blog" class="animate">
-					    <span class="desc animate"> Trabalho Realizado por: Joao Amaral e Mafalda Rodrigues </span>
-					    <span class="glyphicon glyphicon-info-sign"></span>
-					</a>
-				</li>
-				<li>
-				    <a href="#contact-us" class="animate" class="dropdown-toggle" data-toggle="dropdown" class="animate">
-						<span class="glyphicon glyphicon-user"></span>	</a>
-						<ul class="dropdown-menu forAnimate desc animate" role="menu">
-							<li><input checked type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element"> Population density</span></li>
-							<li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element"> Population growt </span></li>
-							<li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element"> Mortality rate </span></li>
-							<li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element"> Fertility rate, total<p>(births per woman)</p></span></li>
-  						</ul>
-				</li>
-			</ul>
-            <span id="anoi">Ano I.</span><textarea id="textarea1">2005</textarea>
-            <span id="anof">Ano F.</span><textarea id="textarea2" disabled>2010</textarea>
-		</nav>
+
+        <!--<div class="dropdown" id="dropdown_menu">
+             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Dropdown Example
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><input type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element">Population density of</span></li>
+                <li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element">Population growt of</span></li>
+                <li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element">Mortality rate of</span></li>
+                <li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element">Fertility rate, total
+																																																											<p>(births per woman)</p></span></li>
+            </ul>
+        </div>-->
+
+
+				<nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
+						<div class="navbar-toggler animate">
+							<span class="menu-icon"></span>
+						</div>
+						<ul class="navbar-menu animate">
+							<li>
+								<a href="#blog" class="animate">
+									<span class="desc animate"> Trabalho Realizado por: Joao Amaral e Mafalda Rodrigues </span>
+									<span class="glyphicon glyphicon-info-sign"></span>
+								</a>
+							</li>
+
+							<li >
+							<a href="#contact-us" class="animate" class="dropdown-toggle" data-toggle="dropdown" class="animate">
+									<!--<span class="desc animate"> How To Reach Us </span>-->
+								<span class="glyphicon glyphicon-user"></span>	</a>
+								<ul class="dropdown-menu forAnimate desc animate" role="menu">
+										<li><input checked type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element"> Population density</span></li>
+										<li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element"> Population growt </span></li>
+										<li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element"> Mortality rate </span></li>
+										<li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element"> Fertility rate, total<p>(births per woman)</p></span></li>
+  							</ul>
+
+
+
+
+
+							</li>
+						<!--	<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" class="animate">
+									<span class="glyphicon glyphicon-user"></span>
+								</a>
+							  <ul class="dropdown-menu forAnimate" role="menu">
+									<li><input checked type="radio" name="escolha" value="EN.POP.DNST" id="option1" /><span id="option1_element"> Population density</span></li>
+									<li><input type="radio" name="escolha" value="SP.POP.GROW" id="option2"/><span id="option2_element"> Population growt </span></li>
+									<li><input type="radio" name="escolha" value="SH.DYN.MORT" id="option3"/><span id="option3_element"> Mortality rate </span></li>
+									<li><input type="radio" name="escolha" value="SP.DYN.TFRT.IN" id="option4"/><span id="option4_element"> Fertility rate, total
+  							</ul>
+							</li>-->
+
+
+
+						</ul>
+                    <span id="anoi">Ano I.</span><textarea id="textarea1">2005</textarea>
+                    <span id="anof">Ano F.</span><textarea id="textarea2" disabled>2010</textarea>
+					</nav>
+
         <table id="tabela">
             <tr>
                 <th>Escala:</th>
@@ -96,21 +134,19 @@
             gl_FragColor = 0.5 * outlineColor + 1.0 * lookupColor + 0.5 * blendColor;
             }
         </script>
-
         <script>
             //Variaveis
-            var container, scene, camera, renderer, controls, stats, mapCanvas, mapContext, CanvasReferencia, ContextReferencia, TexturaReferencia, composer, mesh, controls_grafico;
-            var ecra_widht = 850, ecra_height = window.innerHeight, fov = 45;
-            var aspect = ecra_widht / ecra_height; //aspect ratio
-            var near = 0.1, far = 20000;
-            var renderer_grafico, scene_grafico, camera_grafico, geometry_grafico, geometry,tween, aux=0, expandTween = [], spritey_numero_array = [], spritey_ano_array=[], spritey_numero, barras_obj;
+            var container, scene, camera, renderer, controls, stats, mapCanvas, mapContext, CanvasReferencia, ContextReferencia, TexturaReferencia, composer;
+            var projector = new THREE.Projector();
+            var mouse2D = new THREE.Vector3(0, 0, 0.5);
+            var mesh;
+            var renderer_grafico, scene_grafico, camera_grafico, geometry_grafico, tween, aux=0, expandTween = [], spritey_numero_array = [], spritey_ano_array=[], spritey_numero, barras_obj;
+            //Grafico
             var tick = 0;
             var size = 0.25;
             var bar = new Array();
-            var projector = new THREE.Projector();
-            var mouse = new THREE.Vector3(0, 0, 0.5);
-           
-            //Lista de paises com codigo de cinzas correspondente
+            
+            //Lista de paises com codigo de cor correspondente
             var IndexCorPais = {
                 'PE': 1, 'BF': 2, 'FR': 3, 'LY': 4, 'BY': 5, 'PK': 6, 'ID': 7, 'YE': 8, 'MG': 9, 'BO': 10,
                 'CI': 11, 'DZ': 12, 'CH': 13, 'CM': 14, 'MK': 15, 'BW': 16, 'UA': 17, 'KE': 18, 'TW': 19, 'JO': 20,
@@ -137,9 +173,10 @@
                 'NR': 221, 'GI': 222, 'PN': 223, 'MC': 224, 'VA': 225, 'IM': 226, 'GU': 227, 'SG': 228
             };
 
-            initGlobo(); //Para iniciar o globo e o grafico e as respectivas "scenes"
+            initGlobo();
+            initGrafico();
 
-            //Verificar as opções para a demografia
+            //Extras
             function checkOption() {
                 if (document.getElementById('option1').checked) {
                     document.getElementById("demografia").innerHTML = document.getElementById('option1_element').innerHTML;
@@ -158,53 +195,43 @@
 
             //Globo
             function initGlobo() {
-                //cenas
                 scene = new THREE.Scene();
-                scene_grafico = new THREE.Scene();
 
                 //camera
+                var ecra_widht = 850;//window.innerWidth * 0.625;
+                var ecra_height = window.innerHeight;//window.innerHeight * 0.975;
+                var fov = 45;  //angulo da camara
+                var aspect = ecra_widht / ecra_height; //aspect ratio
+                var near = 0.1; //limite minimo?
+                var far = 20000; //limite maximo?
                 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-                camera_grafico = new THREE.PerspectiveCamera(45, 480 / window.innerHeight, 0.1, 2000);
-                           
-                camera.position.set(0, 250, 250);
-                camera_grafico.position.set(82, 15, 18); //anda para a direita;
-                camera.lookAt(scene.position); //Isso faz com que a camera veja a posição no vetor no espaço tridimensional, desde que o "parent" seja a cena "scene"    
-                camera_grafico.lookAt(new THREE.Vector3(45, 22, 0)); //anda para a esquerda, para baixo e cima
-
                 scene.add(camera);
+                camera.position.set(0, 250, 250);
+                camera.lookAt(scene.position); //Isso faz com que a c�mera veja a posi��o do vetor no espa�o global, desde que o �parent� seja a cena ou na posi��o (0,0,0)
 
+                //Insesir inform��o na div teste
                 if (Detector.webgl) {
-                    renderer = new THREE.WebGLRenderer({ antialias: true });
-                    renderer_grafico = new THREE.WebGLRenderer({ antialias: true });
+                    renderer = new THREE.WebGLRenderer({ antialias: false });
                 } else {
                     renderer = new THREE.CanvasRenderer();
-                    renderer_grafico = new THREE.WebGLRenderer();
                 }
-                
-                //Tamanho das scenes
-                renderer.setSize(850, ecra_height); //scene na esquerda
-                renderer_grafico.setSize(480, window.innerHeight); //scene na direita
+                renderer.setSize(850, ecra_height);
 
-                //Opções dos renders
                 renderer.sortObjects = false;
                 renderer.generateMipmaps = false;
                 renderer.setClearColor(0x000000);
-                //opçoes opcionais de sembra
-                renderer_grafico.shadowMap.enabled = true;
-                renderer_grafico.shadowMap.type = THREE.PCFSoftShadowMap;
 
-                //Elementos as cenas são inseridass
-                document.body.appendChild(renderer.domElement); //Globo
-                document.body.appendChild(renderer_grafico.domElement); //Grafico
+                document.body.appendChild(renderer.domElement);
 
-                //controlador das camaras
+                //controlador da camara
                 controls = new THREE.OrbitControls(camera, renderer.domElement);
-                //Esta desactiva por default devido ao facto nao tedr sido possivel centrar a camara na posição inicial que desejamos
-                //controls_grafico = new THREE.OrbitControls(camera_grafico, renderer_grafico.domElement);
 
-                luz(); //Para iluminar o glogo e o grafico
+                //luz para a esfera
+                var light = new THREE.PointLight(0xffffff);
+                light.position.set(100, 250, 100);
+                scene.add(light);
 
-                // Criacao de um elemente para que se possa inserir a textura de referencia para que se consiga intergir com o intuito de receber um codigo de cor cinza que irá correspender aos paises
+                // Cria��o de uma textura de referencia para que cada pais tenha um codigo de cor cinza diferente dos outros.
                 CanvasReferencia = document.createElement('canvas');
                 CanvasReferencia.width = 256;
                 CanvasReferencia.height = 1;
@@ -214,17 +241,14 @@
                 TexturaReferencia.minFilter = THREE.NearestFilter;
                 TexturaReferencia.needsUpdate = true;
 
-                //Textura com os tons de cinza
                 var mapaTextura = THREE.ImageUtils.loadTexture("images/earth-index-shifted-gray.png");
                 mapaTextura.magFilter = THREE.NearestFilter;
                 mapaTextura.minFilter = THREE.NearestFilter;
                 mapaTextura.needsUpdate = true;
 
-                //Textura das fronteiras de dada país
                 var mapaFronteiras = THREE.ImageUtils.loadTexture("images/earth-outline-shifted-gray.png");
                 mapaFronteiras.needsUpdate = true;
 
-                //Textura do mapa mundi
                 var texturaMundo = THREE.ImageUtils.loadTexture("images/earth-day.jpg");
 
                 var planeMaterial = new THREE.ShaderMaterial({
@@ -240,15 +264,13 @@
                     fragmentShader: document.getElementById('globeFragmentShader').textContent
                 });
 
-                //geometria do globo
-                geometry = new THREE.SphereGeometry(100, 64, 32);
+                var geometry = new THREE.SphereGeometry(100, 64, 32);
                 mesh = new THREE.Mesh(geometry, planeMaterial);
                 mesh.position.set(0, 0, 0);
                 scene.add(mesh);
 
-                //chamamento das funções que permites interagir cmo o globo
-                document.addEventListener('mousemove', moverglobo, false);
-                document.addEventListener('mousedown', globoInteract, false);
+                document.addEventListener('mousemove', mouseMove, false);
+                document.addEventListener('mousedown', mouseClick, false);
 
                 mapCanvas = document.createElement('canvas');
                 mapCanvas.width = 4096;
@@ -265,34 +287,43 @@
                 composer = new THREE.EffectComposer(renderer);
 
                 var renderModel = new THREE.RenderPass(scene, camera);
+
+                var effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
                 var width = window.innerWidth || 2;
                 var height = window.innerHeight || 2;
+                effectFXAA.uniforms['resolution'].value.set(1 / width, 1 / height);
+
                 var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
                 effectCopy.renderToScreen = true;
 
                 composer.addPass(renderModel);
+                composer.addPass(effectFXAA);
                 composer.addPass(effectCopy);
+
+
+
             }
             //Para mexer no globo
-            function moverglobo(event) {
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            function mouseMove(event) {
+                mouse2D.x = (event.clientX / window.innerWidth) * 2 - 1;
+                //console.log(mouse2D.x);
+                mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                //console.log(mouse2D.y);
             }
             //Para interagir com o globo
-            function globoInteract(event) {
+            function mouseClick(event) {
                 //Ver anos inseridos
                 var dataInicio = document.getElementById('textarea1').value;
                 var dataFim = parseInt(dataInicio) + 5;
                 document.getElementById('textarea2').innerHTML = dataFim;
                 var raycaster = new THREE.Raycaster();
-                //Para veriricar a posição do raco em cada click para se possa usar o raycaster
-                mouse.x = (event.clientX / 850) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                mouse2D.x = (event.clientX / 850) * 2 - 1;
+                mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1;
                 var countryCode = -1;
                 raycaster.setFromCamera(mouse2D.clone(), camera);
                 var intersectionList = raycaster.intersectObject(mesh);
                 if (intersectionList.length > 0) {
-                    //Codigo fornecido pelo professor, sem esta ajuda nao seria possivel
+
                     data = intersectionList[0];
                     var d = data.point.clone().normalize();
                     var u = Math.round(4096 * (1 - (0.5 + Math.atan2(d.z, d.x) / (2 * Math.PI))));
@@ -300,25 +331,23 @@
                     var p = mapContext.getImageData(u, v, 1, 1).data;
                     countryCode = p[0];
                     for (var prop in IndexCorPais) {
+
                         if (IndexCorPais.hasOwnProperty(prop)) {
                             if (IndexCorPais[prop] === countryCode) {
                                 if (aux != 0) {
                                     for (var i = 0; i < expandTween.length; i++) {
-                                        expandTween[i].updateTo({ y: 0.1 }, true); //para cada barra do grafico voltar a 0,1 (para nao sair da matrix e evitar erros na consola do browser!)
+                                        expandTween[i].updateTo({ y: 0.1 }, true); //paracada barra do grafico voltar a 0,1 (para nao sair da matrix e evitar erros na consola do browser!)
                                     }
                                     expandTween.length = 0;
                                     bar.length = 0;
-                                    //Para remover todos os objectos (labels) que indica o ano na cena
                                     for (var i = 0; i < spritey_ano_array.length; i++) {
                                         scene_grafico.remove(spritey_ano_array[i]);
                                     }
-                                    //Para remover toos os objectos (labels) que indicam o valor de cada campo
                                     for (var i = 0; i < spritey_numero_array.length; i++) {
                                         scene_grafico.remove(spritey_numero_array[i]);
                                     }
                                     aux = 1;
                                 }
-                                //Operação para recolher informação basica do país
                                 $.ajax({
                                     url: 'http://api.worldbank.org/countries/' + prop + '?format=jsonP',
                                     dataType: 'jsonp',
@@ -336,7 +365,7 @@
                                         console.log("Error");
                                     }
                                 });
-                                //Operação para recober a informação da demografica inseria pelo pais selecionado
+
                                 var indicador = checkOption();
                                 $.ajax({
                                     url: 'http://api.worldbank.org/countries/' + prop + '/indicators/' + indicador + '?date=' + dataInicio + ':' + dataFim + '&format=jsonp',
@@ -347,7 +376,6 @@
                                         var maximo = 0;
                                         var minimo = 100000;
                                         dados = data[1];
-                                        //Determinr o maior e menor valor
                                         for (var i = 0; i < dados.length; i++) {
                                             if (dados[i].value > maximo) {
                                                 maximo = dados[i].value;
@@ -356,7 +384,6 @@
                                                 minimo = dados[i].value;
                                             }
                                         }
-                                        //Processamento de dados
                                         for (var i = 0; i < dados.length; i++) {
                                             if (indicador === 'EN.POP.DNST') {
                                                 if (dados[i].value < 100) {
@@ -398,22 +425,23 @@
                                                 var calculo = dados[i].value;
                                                 var dados_valores =Math.round(dados[i].value * 10) / 10;
                                             }
-                                            
+
+
                                             if (i === 0) {
                                                 if(maximo === dados[i].value){
-                                                    criarBar(1, i, "red", calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i, "red"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else if (minimo === dados[i].value) {
-                                                    criarBar(1, i, "blue", calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i, "blue"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else {
-                                                    criarBar(1, i, "gray", calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i, "gray"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 }
                                             } else {
                                                 if (maximo === dados[i].value) {
-                                                    criarBar(1, i * -6, "red", calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i * -6, "red"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else if (minimo === dados[i].value) {
-                                                    criarBar(1, i * -6, "blue", calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i * -6, "blue"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 } else {
-                                                    criarBar(1, i * -6, "gray", calculo, dados[i].date, dados_valores);
+                                                    createBar(1, i * -6, "gray"/*cores[i]*/, calculo, dados[i].date, dados_valores);
                                                 }
                                             }
                                         }
@@ -426,7 +454,6 @@
                         }
                     }
 
-                    //Para mudar o tom da cor da textura dos países mas verifiar o país selecionado
                     for (var i = 0; i < 228; i++) {
                         if (i == 0)
                             ContextReferencia.fillStyle = "rgba(0,0,0,1.0)"
@@ -442,8 +469,37 @@
                 }
             }
 
-            //Para criar cada barra no grafico de barros
-            function criarBar(total, z, colour, height, texto, value) {
+            function initGrafico() {
+
+                // Setup Scene / Camera
+                scene_grafico = new THREE.Scene();
+
+								camera_grafico = new THREE.PerspectiveCamera(45, 480 / window.innerHeight, 0.1, 2000);
+								//anda para a direita,;
+                camera_grafico.position.set(82, 15, 18);
+								//anda para a esquerda, para baixo e cima1
+
+                camera_grafico.lookAt(new THREE.Vector3(45, 22, 0));
+
+                // Setup Renderer
+                renderer_grafico = new THREE.WebGLRenderer({
+                    antialias: true
+                });
+
+                renderer_grafico.shadowMap.enabled = true;
+                renderer_grafico.shadowMap.type = THREE.PCFSoftShadowMap;
+
+
+
+                renderer_grafico.setSize(480, window.innerHeight);
+                renderer.render(scene_grafico, camera_grafico);
+
+                document.body.appendChild(renderer_grafico.domElement);
+                //var camaraControls_grafico = new THREE.OrbitControls(camera_grafico, renderer_grafico.domElement);
+                createLight();
+            }
+
+            function createBar(total, z, colour, height, texto, value) {
                 for (var i = 0; i < total; i += 1) {
                     geometry_grafico = new THREE.BoxGeometry(2, 2, 2);
                     geometry_grafico.mergeVertices();
@@ -465,18 +521,16 @@
 
                     selectedBar = bar[Math.floor(bar[0].length / 2)];
 
-                    //Localização dos labels nos vertices pretendidos
                     for (var i = 0; i < geometry_grafico.vertices.length; i++) {
                         if (i == 2) {
-                            //Label relativo aos anos
+													//ano
                             var spritey = makeTextSprite(" " + texto + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
                             spritey.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y - 3, geometry_grafico.vertices[i].z - 4);
                             spritey_ano_array.push(spritey);
                             scene_grafico.add(spritey);
                         } else if (i == 4) {
-                            //Label relativo aos valores
                             spritey_numero = makeTextSprite(" " + value + " ", { fontsize: 35, backgroundColor: { r: 255, g: 100, b: 100, a: 1 } });
-                            spritey_numero.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y + height * 1.9, geometry_grafico.vertices[i].z - 2);
+                            spritey_numero.position.set(geometry_grafico.vertices[i].x + 6, geometry_grafico.vertices[i].y + height *1.9, geometry_grafico.vertices[i].z - 2);
                             spritey_numero_array.push(spritey_numero);
                             scene_grafico.add(spritey_numero);
                         }
@@ -486,7 +540,6 @@
 
                 }
 
-                //Para cada barra é usado a biblioteca TweenMax para animar o grafico
                 for (var i = 1; i < bar.length; i += 2) {
                     expandTween.push(new TweenMax.to(bar[i - 1].scale, 1, {
 
@@ -501,7 +554,6 @@
                 aux = 1; //true
             }
 
-            //Codigo basedo no exemplo https://stemkoski.github.io/Three.js/Sprite-Text-Labels.html
             function makeTextSprite(message, opts) {
                 var parameters = opts || {};
                 var fontface = parameters.fontface || 'Helvetica';
@@ -525,27 +577,26 @@
 
                 var spriteMaterial = new THREE.SpriteMaterial({
                     map: texture,
+                    //useScreenCoordinates: false
                 });
                 var sprite = new THREE.Sprite(spriteMaterial);
                 sprite.scale.set(15, 5, 1);
                 return sprite;
             }
 
-            function luz() {
-                var luz = new THREE.PointLight(0xffffff);
-                var ambiente = new THREE.AmbientLight(0x999999);
-                var luzspot = new THREE.SpotLight({
+            function createLight() {
+
+                var ambient = new THREE.AmbientLight(0x999999);
+                var spot = new THREE.SpotLight({
                     color: 0xffffff,
                     intensity: 0.1
                 });
 
-                luz.position.set(100, 250, 100);
-                luzspot.position.set(-50, 100, 100);
-                luzspot.castShadow = true;
-                luzspot.shadowDarkness = 0.2;
+                spot.position.set(-50, 100, 100);
+                spot.castShadow = true;
+                spot.shadowDarkness = 0.2;
 
-                scene.add(luz); //Para a esfera
-                scene_grafico.add(ambiente, luzspot); //Para o grafico
+                scene_grafico.add(ambient, spot);
             }
 
             var render = function () {
